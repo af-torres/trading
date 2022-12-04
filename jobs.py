@@ -35,7 +35,7 @@ class Last8MondaysOpen(Job):
     def __init__(self, ticker: str) -> None:
         self.ticker: yf.Ticker = yf.Ticker(ticker)
 
-        self.data = self.__preload()
+        self.data: DataFrame = self.__preload()
 
     def __preload(self) -> DataFrame:
         data: DataFrame = self.ticker.history(period='1mo', interval='1d')
@@ -59,7 +59,7 @@ class Last8MondaysOpen(Job):
         new_data = self.ticker.history(
             period='1d', interval='1d', start=datetime.date.today().strftime("%Y-%m-%d"))
 
-        self.data = self.data.concat(self.data, new_data)
+        self.data = self.data.append(new_data)
 
     def _get_payload(self) -> JobPayload:
         self.__update_data()
