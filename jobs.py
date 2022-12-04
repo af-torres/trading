@@ -42,6 +42,7 @@ class Last8MondaysOpen(Job):
 
         mondays_in_data = []
 
+        day: datetime.date
         for day in data.index:
             if day.weekday() == 1:
                 mondays_in_data.append(day)
@@ -72,6 +73,8 @@ class Last8MondaysOpen(Job):
 
         if payload.__getitem__('context').__getattribute__('data').shape[0] < 8:
             return Signal(self.ticker.ticker, type(self).__name__, 'not_enough_info')
+
+        # TODO: fix signal logic
 
         return Signal(self.ticker.ticker, type(self).__name__, 'buy')
 
