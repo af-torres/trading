@@ -3,7 +3,8 @@ import time
 from .jobs import Last8MondaysOpen, Job
 
 JOBS: list[Job] = [
-    Last8MondaysOpen('MSFT')
+    Last8MondaysOpen('MSFT'),
+    Last8MondaysOpen('AAPL')
 ]
 
 
