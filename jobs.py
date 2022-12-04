@@ -51,15 +51,15 @@ class Last8MondaysOpen(Job):
 
         return data
 
-    def build(self, schedule: schedule):
-        schedule.every().monday.at('9:00').do(
-            print_signal(self.execute))
-
     def __update_data(self):
         new_data = self.ticker.history(
             period='1d', interval='1d', start=datetime.date.today().strftime("%Y-%m-%d"))
 
         self.data = self.data.append(new_data)
+
+    def build(self, schedule: schedule):
+        schedule.every().monday.at('9:00').do(
+            print_signal(self.execute))
 
     def _get_payload(self) -> JobPayload:
         self.__update_data()
