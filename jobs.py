@@ -19,11 +19,11 @@ class Signal(TypedDict):
 
 class Job(ABC):
     @abstractmethod
-    def _get_payload(self) -> JobPayload:
+    def build(self, schedule: schedule):
         pass
 
     @abstractmethod
-    def build(self, schedule: schedule):
+    def _get_payload(self) -> JobPayload:
         pass
 
     @abstractmethod
