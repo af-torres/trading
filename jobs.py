@@ -66,22 +66,22 @@ class Last8MondaysOpen(Job):
 
         ctx = dict(data=self.data)
 
-        return JobPayload(self.ticker.ticker, ctx)
+        return JobPayload(Ticker=self.ticker.ticker, Ctx=ctx)
 
     def execute(self) -> Signal:
         payload = self._get_payload()
 
-        if payload.__getitem__('Ctx').__getattribute__('data').shape[0] < 8:
-            return Signal(self.ticker.ticker, type(self).__name__, 'not_enough_info')
+        if payload.__getitem__('Ctx').__getitem__('data').shape[0] < 8:
+            return Signal(Ticker=self.ticker.ticker, JobName=type(self).__name__, Output='not_enough_info')
 
         # TODO: fix signal logic
         # stock_history is a DataFrame with index Date and columns [Open, High, Low, Close, Volume, Dividends, Stock Splits]
-        stock_history: DataFrame = payload.__getattribute__(
-            'Ctx').__getattribute__('data')
+        stock_history: DataFrame = payload.__getitem__(
+            'Ctx').__getitem__('data')
 
         signal_value: Literal['buy', 'sell', 'hold', 'not_enough_info'] = 'buy'
 
-        return Signal(self.ticker.ticker, type(self).__name__, signal_value)
+        return Signal(Ticker=self.ticker.ticker, JobName=type(self).__name__, Output=signal_value)
 
 
 def print_signal(execute):
