@@ -62,7 +62,7 @@ class Last8MondaysOpen(Job):
 
     def __update_data(self):
         new_data = self.ticker.history(
-            period='1d', interval='1d', start=datetime.date.today().strftime("%Y-%m-%d"))
+            period='1d', interval='1d')
 
         self.data = self.data.append(new_data)
 
