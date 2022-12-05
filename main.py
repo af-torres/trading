@@ -1,6 +1,6 @@
 import schedule
 import time
-from .jobs import Last8MondaysOpen, Job
+from jobs import Last8MondaysOpen, Job
 
 JOBS: list[Job] = [
     Last8MondaysOpen('MSFT'),

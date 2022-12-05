@@ -1,6 +1,6 @@
 import schedule
 from typing import TypedDict, Literal
-from abc import ABC, abstractmethod, ab
+from abc import ABC, abstractmethod
 import yfinance as yf
 from pandas import DataFrame
 import datetime
@@ -58,8 +58,10 @@ class Last8MondaysOpen(Job):
         self.data = self.data.append(new_data)
 
     def build(self, schedule: schedule):
-        schedule.every().monday.at('9:00').do(
-            print_signal(self.execute))
+        print('Loading job', type(self).__name__,
+              'for ticker:', self.ticker.ticker)
+        schedule.every().monday.at('09:00').do(
+            print_signal, self.execute)
 
     def _get_payload(self) -> JobPayload:
         self.__update_data()
