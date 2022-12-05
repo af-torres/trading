@@ -36,6 +36,8 @@ class Last8MondaysOpen(Job):
         print('Loading job', type(self).__name__,
               'for ticker:', ticker)
 
+        print('\n\n\n')
+
         self.ticker: yf.Ticker = yf.Ticker(ticker)
 
         self.data: DataFrame = self.__preload()
@@ -54,7 +56,7 @@ class Last8MondaysOpen(Job):
         print('#############################################')
         print('Preloading data for', self.ticker.ticker)
         print('#############################################')
-        print(data, '\n\n')
+        print(data, '\n\n\n')
 
         return data
 
@@ -76,10 +78,6 @@ class Last8MondaysOpen(Job):
         return JobPayload(Ticker=self.ticker.ticker, Ctx=ctx)
 
     def execute(self) -> Signal:
-        print('#############################################')
-        print('Executing', type(self).__name__,
-              'for ticker', self.ticker.ticker)
-
         payload = self._get_payload()
 
         if payload.__getitem__('Ctx').__getitem__('data').shape[0] < 8:
@@ -95,6 +93,10 @@ class Last8MondaysOpen(Job):
         return Signal(Ticker=self.ticker.ticker, JobName=type(self).__name__, Output=signal_value)
 
 
-def print_signal(execute):
-    print(execute())
+def print_signal(executer: Job):
     print('#############################################')
+    print('Executing', type(executer).__name__,
+          'for ticker', executer.ticker.ticker)
+    print('Job Signal:\n', executer.execute())
+    print('#############################################')
+    print('\n\n\n')
